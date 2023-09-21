@@ -4,9 +4,9 @@ import { store } from './store'
 import './styles/global.css'
 
 export function App() {
-  return (
-    <ReduxProvider store={store}>
-      <Player />
-    </ReduxProvider>
-  )
+	return (
+		<ReduxProvider store={store}>
+			<Player />
+		</ReduxProvider>
+	)
 }
