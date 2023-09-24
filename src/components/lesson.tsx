@@ -1,20 +1,25 @@
-import { Video } from 'lucide-react'
-import { useDispatch } from 'react-redux'
-import { play } from '@/store/slices/player'
+import { PlayCircle, Video } from 'lucide-react'
 
 interface LessonProps {
 	title: string
 	duration: string
+	isCurrent: boolean
 	onPlay: () => void
 }
 
-export function Lesson({ title, duration, onPlay }: LessonProps) {
+export function Lesson({ title, duration, isCurrent, onPlay }: LessonProps) {
 	return (
 		<button
-			className="flex items-center gap-3 text-sm text-zinc-400"
+			data-active={isCurrent}
+			className="flex items-center gap-3 text-sm text-zinc-400 data-[active=true]:text-emerald-400 enabled:hover:text-zinc-100"
 			onClick={onPlay}
+			disabled={isCurrent}
 		>
-			<Video className="text-zinc-500" size={16} />
+			{isCurrent ? (
+				<PlayCircle className="text-emerald-500" size={16} />
+			) : (
+				<Video className="text-zinc-500" size={16} />
+			)}
 			<span>{title}</span>
 			<span className="ml-auto font-mono text-xs text-zinc-500">
 				{duration}
