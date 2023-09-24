@@ -1,21 +1,14 @@
 import ReactPlayer from 'react-player'
 import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store'
-import { next } from '@/store/slices/player'
+import { next, useCurrentLesson } from '@/store/slices/player'
 
 export function Video() {
 	const dispatch = useDispatch()
 
-	const lesson = useAppSelector((state) => {
-		const { currentModuleIndex, currentLessonIndex } = state.player
-
-		return state.player.course.modules[currentModuleIndex].lessons[
-			currentLessonIndex
-		]
-	})
+	const { currentLesson } = useCurrentLesson()
 
 	const url = new URL('https://youtube.com/watch')
-	url.searchParams.append('v', lesson.id)
+	url.searchParams.append('v', currentLesson.id)
 
 	function handlePlayNextVideo() {
 		dispatch(next())
