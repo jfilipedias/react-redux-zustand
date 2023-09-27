@@ -8,6 +8,10 @@ export function Video() {
 
 	const { currentLesson } = useCurrentLesson()
 
+	if (!currentLesson) {
+		return null
+	}
+
 	const url = new URL('https://youtube.com/watch')
 	url.searchParams.append('v', currentLesson.id)
 
