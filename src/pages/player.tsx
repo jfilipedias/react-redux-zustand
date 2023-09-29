@@ -1,23 +1,20 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { MessageCircle } from 'lucide-react'
 import { Header } from '@/components/header'
 import { Module } from '@/components/module'
 import { Video } from '@/components/video'
-import { useAppSelector, useCurrentLesson } from '@/store'
-import { start } from '@/store/slices/player'
+import { useAppDispatch, useAppSelector, useCurrentLesson } from '@/store'
+import { loadCourse } from '@/store/slices/player'
 
 export function Player() {
 	const modules = useAppSelector((state) => state.player.course?.modules)
 
 	const { currentLesson } = useCurrentLesson()
 
-	const dispatch = useDispatch()
+	const dispatch = useAppDispatch()
 
 	useEffect(() => {
-		fetch('http://localhost:3000/courses/1')
-			.then((response) => response.json())
-			.then((data) => dispatch(start(data)))
+		dispatch(loadCourse())
 	}, [])
 
 	useEffect(() => {
