@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { useAppSelector } from '..'
 
 interface Course {
 	id: number
