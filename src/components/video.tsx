@@ -1,18 +1,20 @@
 import { Loader } from 'lucide-react'
 import ReactPlayer from 'react-player'
-import { useAppDispatch, useAppSelector, useCurrentLesson } from '@/store'
-import { next } from '@/store/slices/player'
+import { useCurrentLesson, useStore } from '@/store'
 
 export function Video() {
+	const { isLoading, next } = useStore((state) => ({
+		isLoading: state.isLoading,
+		next: state.next,
+	}))
+
 	const { currentLesson } = useCurrentLesson()
-	const isLoading = useAppSelector((state) => state.player.isLoading)
-	const dispatch = useAppDispatch()
 
 	const url = new URL('https://youtube.com/watch')
 	url.searchParams.append('v', currentLesson?.id || '')
 
 	function handlePlayNextVideo() {
-		dispatch(next())
+		next()
 	}
 
 	return (

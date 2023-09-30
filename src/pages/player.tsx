@@ -3,18 +3,14 @@ import { MessageCircle } from 'lucide-react'
 import { Header } from '@/components/header'
 import { Module } from '@/components/module'
 import { Video } from '@/components/video'
-import { useAppDispatch, useAppSelector, useCurrentLesson } from '@/store'
-import { loadCourse } from '@/store/slices/player'
+import { useCurrentLesson, useStore } from '@/store'
 
 export function Player() {
-	const modules = useAppSelector((state) => state.player.course?.modules)
-
+	const { course, load } = useStore()
 	const { currentLesson } = useCurrentLesson()
 
-	const dispatch = useAppDispatch()
-
 	useEffect(() => {
-		dispatch(loadCourse())
+		load()
 	}, [])
 
 	useEffect(() => {
@@ -41,8 +37,8 @@ export function Player() {
 					</div>
 
 					<aside className="absolute inset-y-0 right-0 w-80 divide-y-2 divide-zinc-900 overflow-y-scroll border-l border-zinc-800 bg-zinc-900 scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-700">
-						{modules &&
-							modules.map((module, index) => (
+						{course?.modules &&
+							course.modules.map((module, index) => (
 								<Module
 									key={module.id}
 									moduleIndex={index}

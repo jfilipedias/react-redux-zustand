@@ -1,7 +1,6 @@
 import { ChevronDown } from 'lucide-react'
 import * as Collapsible from '@radix-ui/react-collapsible'
-import { useAppDispatch, useAppSelector } from '@/store'
-import { play } from '@/store/slices/player'
+import { useStore } from '@/store'
 import { Lesson } from './lesson'
 
 interface ModuleProps {
@@ -10,19 +9,17 @@ interface ModuleProps {
 }
 
 export function Module({ moduleIndex, title }: ModuleProps) {
-	const dispatch = useAppDispatch()
-
-	const { currentLessonIndex, currentModuleIndex } = useAppSelector((state) => {
-		const { currentLessonIndex, currentModuleIndex } = state.player
-
-		return { currentLessonIndex, currentModuleIndex }
-	})
-
-	const lessons = useAppSelector(
-		(state) => state.player.course?.modules[moduleIndex].lessons,
+	const { currentLessonIndex, currentModuleIndex, lessons, play } = useStore(
+		(state) => ({
+			currentLessonIndex: state.currentLessonIndex,
+			currentModuleIndex: state.currentModuleIndex,
+			lessons: state.course?.modules[moduleIndex].lessons,
+			play: state.play,
+		}),
 	)
 
 	const lessonsAmount = lessons?.length
+
 	return (
 		<Collapsible.Root className="group" defaultOpen={moduleIndex === 0}>
 			<Collapsible.Trigger className="flex w-full items-center gap-3 bg-zinc-800 p-4">
@@ -57,7 +54,7 @@ export function Module({ moduleIndex, title }: ModuleProps) {
 									currentModuleIndex === moduleIndex &&
 									currentLessonIndex === lessonIndex
 								}
-								onPlay={() => dispatch(play([moduleIndex, lessonIndex]))}
+								onPlay={() => play([moduleIndex, lessonIndex])}
 							/>
 						))}
 				</nav>
